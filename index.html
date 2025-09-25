@@ -8,6 +8,7 @@
   </head>
   <body>
     <div class="container">
+        <div id="clock"></div>
         <h1>To-Do List</h1>
         <button id="open-modal-btn">Adicionar Nova Tarefa</button>
 
@@ -39,24 +40,13 @@
             </tbody>
         </table>
 
-        <div id="delete-modal" class="modal">
-            <div class="modal-content" id="delete-modal-content">
-                <h2>Excluir Tarefa</h2>
-                <p>Você tem certeza que deseja excluir esta tarefa?</p>
+        <div id="confirmation-modal" class="modal">
+            <div class="modal-content" id="confirmation-modal-content">
+                <h2 id="confirmation-modal-title"></h2>
+                <p id="confirmation-modal-text"></p>
                 <div class="modal-buttons">
-                    <button id="confirm-delete-btn">Sim</button>
-                    <button id="cancel-delete-btn">Não</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="complete-modal" class="modal">
-            <div class="modal-content" id="complete-modal-content">
-                <h2>Concluir Tarefa</h2>
-                <p>Você tem certeza que deseja alterar a situação desta tarefa?</p>
-                <div class="modal-buttons">
-                    <button id="confirm-complete-btn">Sim</button>
-                    <button id="cancel-complete-btn">Não</button>
+                    <button id="confirm-btn">Sim</button>
+                    <button id="cancel-btn">Não</button>
                 </div>
             </div>
         </div>

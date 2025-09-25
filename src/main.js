@@ -1,4 +1,5 @@
 
+
 import './style.css';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,18 +10,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const todoTable = document.getElementById('todo-table').getElementsByTagName('tbody')[0];
     const titleInput = document.getElementById('title');
     const descriptionInput = document.getElementById('description');
+    const clockElement = document.getElementById('clock');
 
-    const deleteModal = document.getElementById('delete-modal');
-    const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
-    const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
-
-    const completeModal = document.getElementById('complete-modal');
-    const confirmCompleteBtn = document.getElementById('confirm-complete-btn');
-    const cancelCompleteBtn = document.getElementById('cancel-complete-btn');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmationModalTitle = document.getElementById('confirmation-modal-title');
+    const confirmationModalText = document.getElementById('confirmation-modal-text');
+    const confirmBtn = document.getElementById('confirm-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
 
     let todos = JSON.parse(localStorage.getItem('todos')) || [];
-    let taskToDelete = null;
-    let taskToComplete = null;
+    let action = null;
+    let taskIndex = null;
 
     const renderTodos = () => {
         todoTable.innerHTML = '';
@@ -68,13 +68,20 @@ document.addEventListener('DOMContentLoaded', () => {
         modalElement.style.display = 'none';
     };
 
+    const showConfirmationModal = (title, text, actionType, index) => {
+        confirmationModalTitle.textContent = title;
+        confirmationModalText.textContent = text;
+        action = actionType;
+        taskIndex = index;
+        openModal(confirmationModal);
+    };
+
     openModalBtn.addEventListener('click', () => openModal(modal));
     closeBtn.addEventListener('click', () => closeModal(modal));
     window.addEventListener('click', (e) => {
-        if (e.target == modal || e.target == deleteModal || e.target == completeModal) {
+        if (e.target == modal || e.target == confirmationModal) {
             closeModal(modal);
-            closeModal(deleteModal);
-            closeModal(completeModal);
+            closeModal(confirmationModal);
         }
     });
 
@@ -91,50 +98,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
     todoTable.addEventListener('click', (e) => {
         if (e.target.classList.contains('delete-btn')) {
-            taskToDelete = e.target.dataset.index;
-            openModal(deleteModal);
+            const index = e.target.dataset.index;
+            showConfirmationModal('Excluir Tarefa', 'Você tem certeza que deseja excluir esta tarefa?', 'delete', index);
         }
 
         if (e.target.classList.contains('complete-btn')) {
-            taskToComplete = e.target.dataset.index;
-            openModal(completeModal);
+            const index = e.target.dataset.index;
+            showConfirmationModal('Concluir Tarefa', 'Você tem certeza que deseja alterar a situação desta tarefa?', 'complete', index);
         }
     });
 
-    cancelDeleteBtn.addEventListener('click', () => {
-        closeModal(deleteModal);
-        taskToDelete = null;
+    cancelBtn.addEventListener('click', () => {
+        closeModal(confirmationModal);
+        action = null;
+        taskIndex = null;
     });
 
-    confirmDeleteBtn.addEventListener('click', () => {
-        if (taskToDelete !== null) {
-            todos.splice(taskToDelete, 1);
-            saveTodos();
-            renderTodos();
-            closeModal(deleteModal);
-            taskToDelete = null;
-        }
-    });
-
-    cancelCompleteBtn.addEventListener('click', () => {
-        closeModal(completeModal);
-        taskToComplete = null;
-    });
-
-    confirmCompleteBtn.addEventListener('click', () => {
-        if (taskToComplete !== null) {
-            const index = taskToComplete;
-            if (todos[index].status === 'Concluída') {
-                todos[index].status = 'Pendente';
+    confirmBtn.addEventListener('click', () => {
+        if (action === 'delete' && taskIndex !== null) {
+            todos.splice(taskIndex, 1);
+        } else if (action === 'complete' && taskIndex !== null) {
+            if (todos[taskIndex].status === 'Concluída') {
+                todos[taskIndex].status = 'Pendente';
             } else {
-                todos[index].status = 'Concluída';
+                todos[taskIndex].status = 'Concluída';
             }
-            saveTodos();
-            renderTodos();
-            closeModal(completeModal);
-            taskToComplete = null;
         }
+        saveTodos();
+        renderTodos();
+        closeModal(confirmationModal);
+        action = null;
+        taskIndex = null;
     });
+
+    const updateClock = () => {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+    };
+
+    setInterval(updateClock, 1000);
+    updateClock();
 
     renderTodos();
 });
