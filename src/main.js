@@ -26,13 +26,16 @@ document.addEventListener('DOMContentLoaded', () => {
         todoTable.innerHTML = '';
         todos.forEach((todo, index) => {
             const row = todoTable.insertRow();
+            if (todo.status === 'Concluída') {
+                row.classList.add('completed');
+            }
             row.innerHTML = `
                 <td>${todo.title}</td>
                 <td>${todo.description}</td>
                 <td>${new Date(todo.createdAt).toLocaleDateString()}</td>
                 <td>${todo.status}</td>
                 <td>
-                    <button class="complete-btn" data-index="${index}">Concluir</button>
+                    <button class="complete-btn" data-index="${index}">${todo.status === 'Concluída' ? 'Desfazer' : 'Concluir'}</button>
                     <button class="delete-btn" data-index="${index}">Excluir</button>
                 </td>
             `;
@@ -120,7 +123,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     confirmCompleteBtn.addEventListener('click', () => {
         if (taskToComplete !== null) {
-            todos[taskToComplete].status = 'Concluída';
+            const index = taskToComplete;
+            if (todos[index].status === 'Concluída') {
+                todos[index].status = 'Pendente';
+            } else {
+                todos[index].status = 'Concluída';
+            }
             saveTodos();
             renderTodos();
             closeModal(completeModal);

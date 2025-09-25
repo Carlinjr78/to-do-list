@@ -40,22 +40,28 @@
         </table>
 
         <div id="delete-modal" class="modal">
-            <div class="modal-content">
+            <div class="modal-content" id="delete-modal-content">
                 <h2>Excluir Tarefa</h2>
                 <p>Você tem certeza que deseja excluir esta tarefa?</p>
-                <button id="confirm-delete-btn">Sim</button>
-                <button id="cancel-delete-btn">Não</button>
+                <div class="modal-buttons">
+                    <button id="confirm-delete-btn">Sim</button>
+                    <button id="cancel-delete-btn">Não</button>
+                </div>
             </div>
         </div>
 
         <div id="complete-modal" class="modal">
-            <div class="modal-content">
+            <div class="modal-content" id="complete-modal-content">
                 <h2>Concluir Tarefa</h2>
-                <p>Você tem certeza que deseja concluir esta tarefa?</p>
-                <button id="confirm-complete-btn">Sim</button>
-                <button id="cancel-complete-btn">Não</button>
+                <p>Você tem certeza que deseja alterar a situação desta tarefa?</p>
+                <div class="modal-buttons">
+                    <button id="confirm-complete-btn">Sim</button>
+                    <button id="cancel-complete-btn">Não</button>
+                </div>
             </div>
         </div>
+
+        
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>

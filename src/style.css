@@ -60,7 +60,7 @@ h1 {
     background-color: #f2f2f2;
 }
 
-.completed {
+.completed td {
     text-decoration: line-through;
     color: #888;
 }
@@ -131,7 +131,7 @@ h1 {
     cursor: pointer;
 }
 
-#confirm-complete-btn, #confirm-delete-btn {
+#confirm-delete-btn {
     background-color: #28a745;
     color: #fff;
     border: none;
@@ -140,7 +140,7 @@ h1 {
     padding: 0.5rem 1rem;
 }
 
-#cancel-complete-btn, #cancel-delete-btn {
+#cancel-delete-btn {
     background-color: #dc3545;
     color: #fff;
     border: none;
@@ -148,4 +148,16 @@ h1 {
     cursor: pointer;
     padding: 0.5rem 1rem;
     margin-left: 0.5rem;
+}
+
+#delete-modal-content {
+    text-align: center;
+}
+
+#delete-modal-content h2 {
+    margin-bottom: 1.5rem;
+}
+
+#delete-modal-content .modal-buttons {
+    margin-top: 1.5rem;
 }
