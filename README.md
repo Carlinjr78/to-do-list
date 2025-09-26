@@ -59,6 +59,7 @@ Acesse a aplicação em: `http://localhost:5173/`.
 
 1. **Adicionar tarefa:** Digite no campo de entrada e pressione **Enter** ou clique em **Salvar**.
 2. **Concluindo tarefa** Clique em **Concluir** para marcar a tarefa como finalizada.
+3. **Filtre tarefas** FIltre as tarefas por status: Todas, Pendentes, Concluídas.
 3. **Excluir tarefa:** Clique em **Excluir** para remover a tarefa.
 
 
