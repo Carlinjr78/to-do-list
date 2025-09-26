@@ -1,9 +1,12 @@
+// Espera o conteúdo do DOM ser totalmente carregado para executar o script
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Theme toggle
+    // Seletor de tema
     const themeToggleBtn = document.getElementById('theme-toggle-btn');
     const sunIcon = document.getElementById('sun-icon');
     const moonIcon = document.getElementById('moon-icon');
 
+    // Função para atualizar os ícones do tema
     const updateThemeIcons = () => {
         if (document.body.classList.contains('dark')) {
             sunIcon.classList.add('hidden');
@@ -14,11 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Verifica se o tema escuro está salvo no localStorage
     if (localStorage.getItem('theme') === 'dark') {
         document.body.classList.add('dark');
     }
     updateThemeIcons();
 
+    // Adiciona o evento de clique para alternar o tema
     themeToggleBtn.addEventListener('click', () => {
         document.body.classList.toggle('dark');
         if (document.body.classList.contains('dark')) {
@@ -29,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateThemeIcons();
     });
 
-    // Clock
+    // Relógio
     const clockElement = document.getElementById('clock');
     const updateClock = () => {
         const now = new Date();
@@ -62,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Confirmation Modal
+    // Modal de confirmação
     const confirmationModal = document.getElementById('confirmation-modal');
     const confirmationModalTitle = document.getElementById('confirmation-modal-title');
     const confirmationModalText = document.getElementById('confirmation-modal-text');
@@ -71,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let action = null;
     let taskIndex = null;
 
+    // Função para exibir o modal de confirmação
     const showConfirmationModal = (title, text, actionType, index) => {
         confirmationModalTitle.textContent = title;
         confirmationModalText.textContent = text;
@@ -79,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         openModal(confirmationModal);
     };
 
+    // Adiciona o evento de clique para o botão de cancelar
     cancelBtn.addEventListener('click', () => {
         closeModal(confirmationModal);
         action = null;
@@ -92,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const descriptionInput = document.getElementById('description');
     let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
+    // Função para renderizar as tarefas na tabela
     const renderTodos = () => {
         todoTable.innerHTML = '';
         todos.forEach((todo, index) => {
@@ -111,10 +119,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // Função para salvar as tarefas no localStorage
     const saveTodos = () => {
         localStorage.setItem('todos', JSON.stringify(todos));
     };
 
+    // Função para adicionar uma nova tarefa
     const addTodo = (title, description) => {
         const newTodo = {
             title,
@@ -129,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         closeModal(modal);
     };
 
+    // Adiciona o evento de submit para o formulário de tarefas
     todoForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const title = titleInput.value.trim();
@@ -140,6 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Adiciona o evento de clique para a tabela de tarefas
     todoTable.addEventListener('click', (e) => {
         if (e.target.classList.contains('delete-btn')) {
             const index = e.target.dataset.index;
@@ -152,6 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Adiciona o evento de clique para o botão de confirmação
     confirmBtn.addEventListener('click', () => {
         if (action === 'delete' && taskIndex !== null) {
             todos.splice(taskIndex, 1);
@@ -169,5 +182,6 @@ document.addEventListener('DOMContentLoaded', () => {
         taskIndex = null;
     });
 
+    // Renderiza as tarefas ao carregar a página
     renderTodos();
 });
