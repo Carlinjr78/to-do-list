@@ -98,11 +98,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const titleInput = document.getElementById('title');
     const descriptionInput = document.getElementById('description');
     let todos = JSON.parse(localStorage.getItem('todos')) || [];
+    let currentFilter = 'all'; // 'all', 'pending', 'completed'
 
-    // Função para renderizar as tarefas na tabela
     const renderTodos = () => {
         todoTable.innerHTML = '';
-        todos.forEach((todo, index) => {
+        const filteredTodos = todos.filter(todo => {
+            if (currentFilter === 'all') {
+                return true;
+            }
+            if (currentFilter === 'pending') {
+                return todo.status === 'Pendente';
+            }
+            if (currentFilter === 'completed') {
+                return todo.status === 'Concluída';
+            }
+        });
+
+        filteredTodos.forEach((todo, index) => {
+            const originalIndex = todos.indexOf(todo);
             const row = todoTable.insertRow();
             row.innerHTML = `
                 <td class="py-2 px-4 border-b ${todo.status === 'Concluída' ? 'completed' : ''}">${todo.title}</td>
@@ -111,8 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="py-2 px-4 border-b">${todo.status}</td>
                 <td class="py-2 px-4 border-b">
                     <div class="flex gap-2">
-                        <button class="complete-btn bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded" data-index="${index}">${todo.status === 'Concluída' ? 'Reabrir' : 'Concluir'}</button>
-                        <button class="delete-btn bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" data-index="${index}">Excluir</button>
+                        <button class="complete-btn bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded" data-index="${originalIndex}">${todo.status === 'Concluída' ? 'Reabrir' : 'Concluir'}</button>
+                        <button class="delete-btn bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" data-index="${originalIndex}">Excluir</button>
                     </div>
                 </td>
             `;
@@ -184,4 +197,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Renderiza as tarefas ao carregar a página
     renderTodos();
+
+    // Filtros
+    const filterAllBtn = document.getElementById('filter-all');
+    const filterPendingBtn = document.getElementById('filter-pending');
+    const filterCompletedBtn = document.getElementById('filter-completed');
+
+    const updateFilterButtons = () => {
+        filterAllBtn.classList.toggle('bg-blue-500', currentFilter === 'all');
+        filterAllBtn.classList.toggle('text-white', currentFilter === 'all');
+        filterPendingBtn.classList.toggle('bg-blue-500', currentFilter === 'pending');
+        filterPendingBtn.classList.toggle('text-white', currentFilter === 'pending');
+        filterCompletedBtn.classList.toggle('bg-blue-500', currentFilter === 'completed');
+        filterCompletedBtn.classList.toggle('text-white', currentFilter === 'completed');
+    };
+
+    filterAllBtn.addEventListener('click', () => {
+        currentFilter = 'all';
+        updateFilterButtons();
+        renderTodos();
+    });
+
+    filterPendingBtn.addEventListener('click', () => {
+        currentFilter = 'pending';
+        updateFilterButtons();
+        renderTodos();
+    });
+
+    filterCompletedBtn.addEventListener('click', () => {
+        currentFilter = 'completed';
+        updateFilterButtons();
+        renderTodos();
+    });
+
+    updateFilterButtons();
 });
