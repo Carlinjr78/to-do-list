@@ -26,13 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
         todoTable.innerHTML = '';
         todos.forEach((todo, index) => {
             const row = todoTable.insertRow();
-            if (todo.status === 'Concluída') {
-                row.classList.add('completed');
-            }
             row.innerHTML = `
-                <td class="py-2 px-4 border-b">${todo.title}</td>
-                <td class="py-2 px-4 border-b">${todo.description}</td>
-                <td class="py-2 px-4 border-b">${new Date(todo.createdAt).toLocaleDateString()}</td>
+                <td class="py-2 px-4 border-b ${todo.status === 'Concluída' ? 'completed' : ''}">${todo.title}</td>
+                <td class="py-2 px-4 border-b ${todo.status === 'Concluída' ? 'completed' : ''}">${todo.description}</td>
+                <td class="py-2 px-4 border-b ${todo.status === 'Concluída' ? 'completed' : ''}">${new Date(todo.createdAt).toLocaleDateString('pt-BR')}</td>
                 <td class="py-2 px-4 border-b">${todo.status}</td>
                 <td class="py-2 px-4 border-b">
                     <div class="flex gap-2">
