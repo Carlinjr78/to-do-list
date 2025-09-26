@@ -1,6 +1,6 @@
 
 
-import './style.css';
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('modal');
@@ -30,13 +30,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 row.classList.add('completed');
             }
             row.innerHTML = `
-                <td>${todo.title}</td>
-                <td>${todo.description}</td>
-                <td>${new Date(todo.createdAt).toLocaleDateString()}</td>
-                <td>${todo.status}</td>
-                <td>
-                    <button class="complete-btn" data-index="${index}">${todo.status === 'Concluída' ? 'Desfazer' : 'Concluir'}</button>
-                    <button class="delete-btn" data-index="${index}">Excluir</button>
+                <td class="py-2 px-4 border-b">${todo.title}</td>
+                <td class="py-2 px-4 border-b">${todo.description}</td>
+                <td class="py-2 px-4 border-b">${new Date(todo.createdAt).toLocaleDateString()}</td>
+                <td class="py-2 px-4 border-b">${todo.status}</td>
+                <td class="py-2 px-4 border-b">
+                    <div class="flex gap-2">
+                        <button class="complete-btn bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded" data-index="${index}">${todo.status === 'Concluída' ? 'Reabrir' : 'Concluir'}</button>
+                        <button class="delete-btn bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded" data-index="${index}">Excluir</button>
+                    </div>
                 </td>
             `;
         });
@@ -61,11 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const openModal = (modalElement) => {
-        modalElement.style.display = 'block';
+        modalElement.classList.remove('hidden');
     };
 
     const closeModal = (modalElement) => {
-        modalElement.style.display = 'none';
+        modalElement.classList.add('hidden');
     };
 
     const showConfirmationModal = (title, text, actionType, index) => {
@@ -79,8 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
     openModalBtn.addEventListener('click', () => openModal(modal));
     closeBtn.addEventListener('click', () => closeModal(modal));
     window.addEventListener('click', (e) => {
-        if (e.target == modal || e.target == confirmationModal) {
+        if (e.target == modal) {
             closeModal(modal);
+        }
+        if (e.target == confirmationModal) {
             closeModal(confirmationModal);
         }
     });
