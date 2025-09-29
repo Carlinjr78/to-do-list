@@ -1,5 +1,3 @@
-
-
 ---
 
 # To-Do List
@@ -94,4 +92,3 @@ git push origin feature/NomeDaFeature
 Se tiver sugestões, você também pode abrir uma **issue** com a tag `enhancement`.
 
 ---
-

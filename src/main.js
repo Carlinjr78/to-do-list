@@ -1,3 +1,5 @@
+import './style.css';
+
 // Espera o conteúdo do DOM ser totalmente carregado para executar o script
 
 document.addEventListener('DOMContentLoaded', () => {
